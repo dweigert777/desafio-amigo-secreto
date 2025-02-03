@@ -1,8 +1,10 @@
+let listaDeNomesSorteados = [];
 let amigos = [];
+let quantidadeDeNomes = (amigos.length)
 
 function adicionarAmigo() {
-    const inputAmigo = document.getElementById('amigo');
-    const nomeAmigo = inputAmigo.value.trim();
+    let inputAmigo = document.getElementById('amigo');
+    let nomeAmigo = inputAmigo.value.trim();
 
     if (nomeAmigo ==='') {
         alert('Por favor, insira um nome');
@@ -11,20 +13,17 @@ function adicionarAmigo() {
     amigos.push(nomeAmigo);
     atualizarLista();
     inputAmigo.value = '';
-    inputAmigo.focus();
-
-  
+    inputAmigo.focus(); 
 }
 
 function atualizarLista() {
-    const listaAmigoUl = document.getElementById('listaAmigos');
+    let listaAmigoUl = document.getElementById('listaAmigos');
     listaAmigoUl.innerHTML = '';
 
     amigos.forEach(amigo => {
-        const li =document.createElement('li');
+        let li =document.createElement('li');
         li.textContent = amigo;
         listaAmigoUl.appendChild(li);
-
     });
 }
 function sortearAmigo() {
@@ -32,11 +31,26 @@ function sortearAmigo() {
         alert('Não há amigos para sortear. Insira nomes antes de sortear.');
         return;
     }
-    const indiceAleatorio = Math.floor(Math.random() * amigos.length);
-    const amigoSorteado = amigos[indiceAleatorio];
-    const resultadoUl = document.getElementById('resultado');
+    let indiceAleatorio = Math.floor(Math.random() * amigos.length);
+    let quantidadeDeNomes = listaDeNomesSorteados.length;
+
+    if (quantidadeDeNomes == amigos.length) {
+        listaDeNomesSorteados = [] && alert('Todos os nomes já foram sorteados');
+        return;
+    }
+    let amigoSorteado = amigos[indiceAleatorio];
+    let resultadoUl = document.getElementById('resultado');
     resultadoUl.innerHTML = `<li>${amigoSorteado}<li>`;
+
+    if (listaDeNomesSorteados.includes(indiceAleatorio)) {
+        return sortearAmigo();
+    } else {
+        listaDeNomesSorteados.push(indiceAleatorio);
+        console.log(listaDeNomesSorteados);
+        return indiceAleatorio;
+    }   
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('button-add').addEventListener('click', adicionarAmigo)
     document.getElementById('button-draw').addEventListener('click', sortearAmigo)
